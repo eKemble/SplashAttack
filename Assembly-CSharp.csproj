@@ -45,7 +45,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
      <Compile Include="assets\RandomSpawn.cs" />
+=======
+     <Compile Include="assets\TestGun.cs" />
+>>>>>>> refs/remotes/origin/Kdizzle-shizzles
      <Compile Include="assets\TestMovement.cs" />
      <Compile Include="assets\VerticalPlatformMovement.cs" />
  <Reference Include="UnityEngine.UI">
