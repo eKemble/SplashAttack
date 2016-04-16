@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-[RequireComponent (typeof(Collider))]
+[RequireComponent(typeof(Collider))]
 
 public class Player : MonoBehaviour {
     /*
@@ -9,41 +9,43 @@ public class Player : MonoBehaviour {
     Water Supply=Ammo=Float
     WaterWeapon=Weapon Class
         */
-    public float moveSpeed=8f; //Multiplier that influences the Horizontal input
-    public float jumpHeight=6f; //increment if using just pure translational ascension
+    public float moveSpeed = 8f; //Multiplier that influences the Horizontal input
+    public float jumpHeight = 6f; //increment if using just pure translational ascension
     public float jumpingForce = 3000; //Accelerated jump
-    public float maxWaterCapacity=100f; //Amount of water that user can carry
+    public float maxWaterCapacity = 100f; //Amount of water that user can carry
     public float currentWaterSupply; //Current amount of water 
     public WaterWeapon myWeapon; //Starts off at Waterballoon
-    public Collider myCollider; 
+    public Collider myCollider;
     public Rigidbody myRigidbody;
     public bool running; //Helps discern whether we use parabolic jump or normal jump. Probably can help with projectiles too
-    public bool stall=false; //Bad word choice, but this helps set-up instant stop
+    public bool stall = false; //Bad word choice, but this helps set-up instant stop
     public int bursts = 10; //Movement Modifiers(Dash Left & Right, Quick Fall, Super Jump, wall jump)
     public bool iced = false; // If we do snowballs/icegun
     public bool _________________________;
 
     public GameObject go;
     public bool canJump = true;
-    public Vector3 myMovement= new Vector3(0f,0f,0f);
-    public bool inTheAir=false;
+    public Vector3 myMovement = new Vector3(0f, 0f, 0f);
+    public bool inTheAir = false;
     // Use this for initialization
 
 
-    void Start () {
+    void Start() {
         myCollider = GetComponent<Collider>();
         myRigidbody = GetComponent<Rigidbody>();
         go = gameObject;
         Physics.gravity = new Vector3(0, -13F, 0); //I like this because you fall a little faster
     }
-	
+
     void FixedUpdate()
     {
         float horizontal = Input.GetAxis("Horizontal") * moveSpeed; //Figures out if you are moving left or right, then scales it
         float airHorizontal = horizontal * 1.2f;//helps create a parabola affect when combined with the smaller jump height
-        float parabolaJump = jumpHeight * .7f;
+        float parabolaJump = jumpingForce * .7f;
+        float controllerHorizontal = Input.GetAxis("ControllerHorizontalLeftStick") * 6000;
+        //var controllerVertical = Input.GetAxis("RightV") * 45;
 
-
+        print(controllerHorizontal);
         //---------------------------------JUMP--------------------------------
 
         //If you press up and you are against a surface and you aren't holding the stall-button
@@ -51,12 +53,12 @@ public class Player : MonoBehaviour {
         {
             //NORMAL JUMP
             if (!running)
-                {
+            {
                 //TRANSLATIONAL MOVEMENT transform.position += new Vector3(0, jumpHeight); 
                 myMovement.y = jumpingForce;
                 myRigidbody.AddForce(myMovement); //add force vector
                 canJump = false;
-                inTheAir = true;          
+                inTheAir = true;
             }
             if (running)//RUNNING JUMP not as high, but you go further
             {
@@ -69,7 +71,7 @@ public class Player : MonoBehaviour {
             }
         }
 
-        if(Input.GetKeyDown("down") && inTheAir && bursts !=0) //ANTI-JUMP
+        if (Input.GetKeyDown("down") && inTheAir && bursts != 0) //ANTI-JUMP
         {
             myMovement.y -= jumpingForce; //Fall with the force you typically jump
             myRigidbody.AddForce(myMovement);
@@ -77,45 +79,52 @@ public class Player : MonoBehaviour {
         }
 
         if (Input.GetKeyDown("right shift") /*CONTROLLER*/ && inTheAir && bursts != 0)//HOVER
-            {         
-            }
-    
-
-      //-----------------------------------------------------------------------------------------
-
-            //----------------------------------------------MOVING-----------------------------------
-            if ((Input.GetButton("Horizontal") && !inTheAir && !stall))//NORMAL MOVEMENT
         {
-            transform.position += new Vector3(horizontal * Time.deltaTime, 0, 0);
-            running = true;
         }
-        
-            /*    
-        if ((Input.GetButton("ControllerHorizontal")&& !inTheAir && !stall))//NORMAL MOVEMENT
+
+
+        //-----------------------------------------------------------------------------------------
+
+        //----------------------------------------------MOVING-----------------------------------
+        if ((Input.GetButton("Horizontal") && !inTheAir && !stall))//NORMAL MOVEMENT
         {
             transform.position += new Vector3(horizontal * Time.deltaTime, 0, 0);
             running = true;
-        }*/
+                    }
 
         if (Input.GetButton("Horizontal") /*CONTROLLER*/&& inTheAir && !stall) //SLOWED DOWN LATERAL MOVEMENT
             transform.position += new Vector3(airHorizontal * Time.deltaTime, 0 , 0);
-        
 
         if (horizontal == 0) //you aren't moving
             running = false;
+
+        /*
+        if ((Input.GetButton("ControllerHorizontal2") && !inTheAir && !stall))//NORMAL MOVEMENT
+        {
+           
+            running = true;
+            transform.position += new Vector3(controllerHorizontal * Time.deltaTime, 0, 0);
+            print(controllerHorizontal);
+            print("jaksjdfkaj;lsdfjaklsd");
+        }*/
+        //CONTROLLER LEFT STICK MOVEMENT
+        if(Input.GetButton("ControllerHorizontalLeftStick") && !inTheAir && !stall)
+        {
+            transform.position += new Vector3(controllerHorizontal* Time.deltaTime, 0, 0);
+            running = true;
+            print("HI");
+        }
         //---------------------------------------------------------------------------------------
 
         //-------------------------STALL MOVEMENT MODIFIERS----------------------------------------------
 
         if (Input.GetKey("right shift")/*CONTROLLER*/ && inTheAir != true) //Holding down
         {
-            print("hajklsdf;kla;sjdfkladjs");
             stall = true; //Stops player in their track
-
 
             if (Input.GetButtonDown("Vertical") && canJump == true && bursts != 0)//BIG JUMP
             {
-                myMovement.y = jumpingForce*2; 
+                myMovement.y = jumpingForce*1.5f; 
                 myRigidbody.AddForce(myMovement);
                 canJump = false;
                 inTheAir = true;

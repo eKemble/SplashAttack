@@ -2,16 +2,14 @@
 using System.Collections;
 
 public class WaterWeapon : MonoBehaviour {
-    public float watertank=100;
-    ParticleSystem ps; 
+    ParticleSystem ps;
+    public float currentWaterSupply=150;
 
-
-	void Start ()
+    void Start ()
     {
         ps = GetComponent<ParticleSystem>();
 	}
 	
-
 	void Update ()
     {
         shoot();
@@ -21,12 +19,20 @@ public class WaterWeapon : MonoBehaviour {
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            while (watertank >= 0)
+           if(currentWaterSupply >= 0)
             {
                 ps.Play();
-                //current water drops 20% a second, allows for holding fire down           
+                currentWaterSupply -= 10;                       
             }
         }
 
     }
+
+    //refill tanks
+    void OnTriggerEnter(Collider other)
+    {       
+        if(other.gameObject.tag== "refill")
+        currentWaterSupply= 150;
+    }
+ 
 }
