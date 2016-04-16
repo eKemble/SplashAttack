@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="assets\RandomSpawn.cs" />
      <Compile Include="assets\TestMovement.cs" />
      <Compile Include="assets\VerticalPlatformMovement.cs" />
  <Reference Include="UnityEngine.UI">
