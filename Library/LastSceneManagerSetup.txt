@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-sceneSetups: []
-=======
 sceneSetups:
-- path: assets/Scenes/BrendonLevelTestScene.unity
+- path: assets/Scenes/BrendonLevel2TestScene.unity
   isLoaded: 1
   isActive: 1
->>>>>>> refs/remotes/origin/master
