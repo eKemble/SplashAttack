@@ -41,16 +41,16 @@ public class Player : MonoBehaviour {
     {
         float horizontal = Input.GetAxis("Horizontal") * moveSpeed; //Figures out if you are moving left or right, then scales it
         float airHorizontal = horizontal * 1.2f;//helps create a parabola affect when combined with the smaller jump height
-        float parabolaJump = jumpHeight * .7f;
+        float parabolaJump = jumpingForce * .7f;
 
 
         //---------------------------------JUMP--------------------------------
 
         //If you press up and you are against a surface and you aren't holding the stall-button
-        if ((Input.GetButtonDown("Vertical") || Input.GetKeyDown("joystick button 1")) && canJump == true && !stall)
+        if ((Input.GetButtonDown("Vertical") || Input.GetKeyDown("joystick button 1")) && canJump == true && stall != true)
         {
             //NORMAL JUMP
-            if (!running)
+            if (running ==false)
                 {
                 //TRANSLATIONAL MOVEMENT transform.position += new Vector3(0, jumpHeight); 
                 myMovement.y = jumpingForce;
@@ -58,10 +58,10 @@ public class Player : MonoBehaviour {
                 canJump = false;
                 inTheAir = true;          
             }
-            if (running)//RUNNING JUMP not as high, but you go further
+            if (running == true)//RUNNING JUMP not as high, but you go further
             {
                 //TRANSLATIONAL MOVEMENT transform.position += new Vector3(airHorizontal*Time.deltaTime, parabolaJump, 0);
-                myMovement.y = jumpingForce * .7f;
+                myMovement.y = parabolaJump;
                 myMovement.x = airHorizontal;
                 myRigidbody.AddForce(myMovement);
                 canJump = false; //you can't jump
