@@ -1,4 +1,4 @@
 sceneSetups:
-- path: assets/Scenes/BrendonLevel2TestScene.unity
+- path: assets/Scenes/BrendonLevel3TestScene.unity
   isLoaded: 1
   isActive: 1
