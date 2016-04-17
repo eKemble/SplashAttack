@@ -1,4 +1,8 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: assets/Scenes/_Scene_0.unity
+=======
+- path: assets/Scenes/BrendonLevel3TestScene.unity
+>>>>>>> 2e78bdb7a16e30359cef39ed42452e1dd9662c46
   isLoaded: 1
   isActive: 1
