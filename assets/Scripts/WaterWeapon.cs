@@ -3,7 +3,7 @@ using System.Collections;
 
 public class WaterWeapon : MonoBehaviour {
     ParticleSystem ps;
-    public float currentWaterSupply=150;
+    public float currentWaterSupply = 12;
 
     void Start ()
     {
@@ -22,7 +22,7 @@ public class WaterWeapon : MonoBehaviour {
            if(currentWaterSupply >= 0)
             {
                 ps.Play();
-                currentWaterSupply -= 10;                       
+                currentWaterSupply -= 1;                       
             }
         }
 
@@ -30,9 +30,14 @@ public class WaterWeapon : MonoBehaviour {
 
     //refill tanks
     void OnTriggerEnter(Collider other)
-    {       
-        if(other.gameObject.tag== "refill")
-        currentWaterSupply= 150;
+    {
+        if (other.gameObject.tag == "refill")
+            currentWaterSupply = 12;
     }
- 
+
+    void OnParticleCollision(Collider other)
+    {
+        ps.Clear();
+    }
+
 }
